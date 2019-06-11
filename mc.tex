@@ -1,0 +1,108 @@
+\documentclass[a4paper,10pt,smallheadings,twocolumn]{scrartcl}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatimbox}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[top=2cm,right=2cm,bottom=3cm,left=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage[lastpage,user]{zref}
+\usepackage{multirow}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\Title}{Micro Controllers Summary}
+\newcommand{\Author}{Lucien Zürcher}
+\newcommand{\Date}{\today}
+
+\newcommand{\norm}[1]{\lvert\lvert #1 \rvert\rvert}
+
+\title{\vspace{-1cm}\Title\vspace{0cm}}
+\date{\Date}
+\author{Lucien Zürcher}
+
+\graphicspath{ {./assets/} }
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\Title}
+\fancyhead[R]{\Author}
+\fancyfoot[L]{MC}
+\fancyfoot[C]{\Date}
+\fancyfoot[R]{Page \thepage\ of \zpageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\setlength{\columnsep}{1cm}
+\setlength{\parindent}{0cm}
+\setcounter{MaxMatrixCols}{20}
+
+\makeatletter
+\newenvironment{multicases}[1]
+  {\let\@ifnextchar\new@ifnextchar
+   \left\lbrace\def\arraystretch{1.2}%
+   \array{@{}l*{#1}{@{\quad}l}@{}}}
+  {\endarray\right.\kern-\nulldelimiterspace}
+\makeatother
+
+\newenvironment{tightenumerate}{
+\begin{enumerate}
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{tighitemize}{
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \renewcommand\labelitemi{-}
+}{\end{itemize}}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+\tableofcontents
+\clearpage
+
+\input{sw/01-basics.tex}
+
+\newpage
+
+\end{document}
