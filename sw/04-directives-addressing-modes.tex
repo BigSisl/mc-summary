@@ -1,0 +1,91 @@
+\section{Assembler Directives \& Addressing Modes}
+
+\subsection{Directives}
+
+\begin{tabular}{lp{0.3\textwidth}}
+    \textbf{Directive} & \textbf{Description} \\
+    $\mathbf{SECTION}$ & \textit{Defines the beginning of a relocatable section} \\
+    $\mathbf{EQU}$     & \textit{Assigns an expression to a name. Not redefinable} \\
+    $\mathbf{DC}$      & \textit{Defines one or more constants and their names. Will be stored at the set location} \\
+    $\mathbf{DS}$      & \textit{Allocates memory(RAM) for variables} \\
+\end{tabular}
+
+\textit{
+    The Assembler-Directive $\mathbf{SECTION}$ defines program- and
+    data section. Those section can be moved freely within the memory (relocative
+    assembling), \textbf{after} the \textbf{assembly} process is finished. \\
+    The final memory area location happens after the linking process. The locations
+    of those sections can therefor be defined in the \textbf{Linker-Parameterfile}.
+}
+
+\subsection{Basic Assembler Program}
+
+\begin{lstlisting}
+; include definitions
+include 'MC9S08JM60.inc'
+
+; -- globals
+GLOBAL _Startup ; define start of programm
+GLOBAL main
+GLOBAL dummy    ; Dummy Interrupt Service Routine
+
+; -- equations
+StackSize: EQU   $60   ; stack size
+pi:        EQU   31416 ; example of random equ
+
+; -- stack
+DATA_STACK: SECTION
+TofStack:  DS    StackSize-1 ; definiton of "Top of Stack"
+BofStack:  DS    1           ; definition of "Bottom of Stack"
+
+; -- create space for data
+DATA:   SECTION
+var1:   DS    1   ; Example of a 1 Byte Variable
+Array1: DS    $20 ; Example of an Array of $20 Bytes
+
+; -- setup constants
+CONST:     SECTION
+Maske1:      DC.B    %00000001
+Parameter1:  DC.B    $3A    ; DC with a point
+Parameter2:  DC.W    57100  ; word with int value
+Reserve_Par: DS      16     ; reserve empty 16 Bytes
+VarArray:    DS.W    3      ; reserve 3 Words
+STRING1:     DC.B    10,"Hello",$0D
+
+; -- program start (initialisation)
+PROGRAMM:   SECTION ; Code Segment
+_Startup:           ; Resetvektor points to this
+Stackinit:  LDHX  #(BofStack+1)
+            TXS          ; decrement TXS, thats why +1 BofStack
+            LDA   #$00
+            STA   SOPT1  ; Disable Watchdog
+
+; -- actual program
+main:
+    ; turn on backligths of the car
+    BSET    PTDD_PTDD2, PTDD
+    BSET    PTDDD_PTDDD2, PTDDD
+
+    CLR     RamLoc
+
+    BCLR    PTGDD_PTGDD0, PTGDD
+    BCLR    PTGDD_PTGDD1, PTGDD
+    BCLR    PTGDD_PTGDD2, PTGDD
+EndlessLoop:
+    ; load joystick values
+    MOV     RamLoc, PTGD
+    JMP     EndlessLoop
+
+; (=ensure program end if endlessloop is missing)
+EndLoop:    BRA     *
+
+; catch any unexpected interrupts
+dummy:          BGND
+                BRA     dummy
+
+\end{lstlisting}
+
+\subsection{Addressing Modes}
+
+
+

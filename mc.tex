@@ -57,6 +57,11 @@
   {\endarray\right.\kern-\nulldelimiterspace}
 \makeatother
 
+% minimize spacing of lists
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+\setenumerate{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+
 \newenvironment{tightenumerate}{
 \begin{enumerate}
     \setlength{\itemsep}{0pt}
@@ -104,6 +109,8 @@
 
 \input{sw/01-system-components.tex}
 \input{sw/02-compiling.tex}
+\input{sw/03-introduction-assembler-hcs08.tex}
+\input{sw/04-directives-addressing-modes.tex}
 
 \newpage
 
