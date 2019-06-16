@@ -108,7 +108,7 @@ dummy:          BGND
 \textit{
     \textbf{Immediat adressing} mode: the following Byte of the operation code
     is immediately used as the operand. \\
-    Example: $\mathbf{LDA \#\$1C}$
+    Example: \textbf{LDA \#\$1C}
 }
 
 \subsubsection{Inherent (INH)}
@@ -118,7 +118,7 @@ dummy:          BGND
 \textit{
     \textbf{Inherent addressing} mode: no explicit operand address needed.
     All operands are in the CPU-registers \\
-    Example: $\mathbf{INCA}$
+    Example: \textbf{INCA}
 }
 
 \subsubsection{Direct (DIR)}
@@ -130,7 +130,7 @@ dummy:          BGND
     \textbf{1-Byte} operand address follows in the program memory. \\
     Only operands in the address section between \$00 and \$FF are
     supported. (The Direct Page Registers 0x00-0xAF, Direct Page RAM 0xB0-0xFF) \\
-    Example: $\mathbf{LDA \$08}$
+    Example: \textbf{LDA \$08}
 }
 
 \subsubsection{Extended (EXT)}
@@ -141,7 +141,7 @@ dummy:          BGND
     \textbf{Extended addressing} mode: After the operation code, the \textbf{2-Byte}
     operand address follows in the program memory. \\
     Supports the whole address section between 0x0000 - 0xFFFF. But is also slower. \\
-    Example: $\mathbf{LDA \$34,X}$
+    Example: \textbf{LDA \$34,X}
 }
 
 \subsubsection{Indexed (IX1)}
