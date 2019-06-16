@@ -87,5 +87,107 @@ dummy:          BGND
 
 \subsection{Addressing Modes}
 
+\begin{itemize}
+    \item{\textit{\textbf{Immediate}: 1 Byte operand in instruction (LDA \#\$01)}}
+    \item{\textit{\textbf{Inherent}: no operand required (e.g. NOP, INCA..)}}
+    \item{\textit{\textbf{Direct}: onlu direct page, 1 address Byte}}
+    \item{\textit{\textbf{Extended}: whole 64k area, 2 address Bytes}}
+    \item{\textit{\textbf{Indexed}: with SP (Stack pointer) or HX (7 sub modes)}}
+    \item{\textit{\textbf{Relative}: for branches, PC=PC+2+two's compl.}}
+\end{itemize}
 
+\textit{
+    Different addressing modes of the same instruction type use differnet
+    operation codes (e.g. LDA-MM: A6; LDA-DIR: B6). \\
+}
 
+\subsubsection{Immediate (IMM)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-immediate.png}
+
+\textit{
+    \textbf{Immediat adressing} mode: the following Byte of the operation code
+    is immediately used as the operand. \\
+    Example: $\mathbf{LDA \#\$1C}$
+}
+
+\subsubsection{Inherent (INH)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-inherent.png}
+
+\textit{
+    \textbf{Inherent addressing} mode: no explicit operand address needed.
+    All operands are in the CPU-registers \\
+    Example: $\mathbf{INCA}$
+}
+
+\subsubsection{Direct (DIR)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-direct.png}
+
+\textit{
+    \textbf{Direct addressing} mode: After the operation code, the
+    \textbf{1-Byte} operand address follows in the program memory. \\
+    Only operands in the address section between \$00 and \$FF are
+    supported. (The Direct Page Registers 0x00-0xAF, Direct Page RAM 0xB0-0xFF) \\
+    Example: $\mathbf{LDA \$08}$
+}
+
+\subsubsection{Extended (EXT)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-extended.png}
+
+\textit{
+    \textbf{Extended addressing} mode: After the operation code, the \textbf{2-Byte}
+    operand address follows in the program memory. \\
+    Supports the whole address section between 0x0000 - 0xFFFF. But is also slower. \\
+    Example: $\mathbf{LDA \$34,X}$
+}
+
+\subsubsection{Indexed (IX1)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-indexed.png}
+
+\textit{
+    \textbf{Indexed addressing} mode: uses the \textbf{HX} or \textbf{SP} register. \\
+    Through indexed addressing the final assigned operand address is dependent from
+    the program behaviour (address arithmetics).
+}
+
+\textit{Following are sub modes of the indexed addressing mode}
+
+\begin{tabular}{lp{0.25\textwidth}l}
+    $\mathbf{IX}$   & \textit{Indexed addressing with H:X, without offset}
+                    & \scriptsize{\textbf{LDA  X}} \\
+    $\mathbf{IX1}$  & \textit{Indexed addressing with H:X and \textbf{8-bit offset}}
+                    & \scriptsize{\textbf{LDA  \$34, X}} \\
+    $\mathbf{IX2}$  & \textit{Indexed addressing with H:X and \textbf{16-bit offset}}
+                    & \scriptsize{\textbf{LDA  \$34A5, X}} \\
+    $\mathbf{IX+}$  & \textit{
+                            Indexed addressing with \textbf{H:X} and \textbf{H:X
+                            Increment}. Only for MOV and CBEQ
+                            (Compare Accu with value on the address that
+                            is stored in the H:X register. If values are
+                            equal, jump to Label and increment H:X)
+                            instructions
+                        }
+                    & \scriptsize{\textbf{CBEQ  X+, Label}} \\
+    $\mathbf{IX1+}$ & \textit{Same as IX+, with \textbf{Increment} and \textbf{8-bit offset} (Only available for instruction CBEQ)}
+                    & \scriptsize{\textbf{CBEQ  \$34,X+, Label}} \\
+    $\mathbf{SP1}$  & \textit{Same as IX1, but with Stackpointer SP instead of H:X.}
+                    & \scriptsize{\textbf{LDA  \$34, SP}} \\
+    $\mathbf{SP2}$  & \textit{Same as IX2, but with Stackpointer SP instead of H:X.}
+                    & \scriptsize{\textbf{LDA  \$34A5, SP}} \\
+\end{tabular}
+
+\subsubsection{Relative (REL)}
+
+\includegraphics[width=0.5\textwidth]{addressmode-relative.png}
+
+\textit{
+    \textbf{PC relative addressing} mode: is only used with BRANCH-Instructions. \\
+    The following Byte after the operand is a \textbf{two's complement} offset
+    to the already increased program counter. \\
+    The address range with relaive addressing is -126 to +129. 129, since
+    the PC is incremented before and after the jump (+2).
+}
