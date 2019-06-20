@@ -43,6 +43,20 @@ interrupt void ISR_outCompare(void){
 
 \includegraphics[width=0.5\textwidth]{output-compare-timer-trick.png}
 
+\textit{
+    The value to increment can be calculated as following:
+    \newline
+}
+
+\begin{tabular}{cp{0.2\textwidth}}
+    $ChannelValue = \frac{T_{CHnF} \cdot F}{Prescaler}$&
+    \textit{
+        $T_{CHnF}$: Target channel frequency\newline
+        $F$: Clock frequency
+    } \\
+\end{tabular}
+
+
 \subsection{Input Capture}
 
 \textit{
