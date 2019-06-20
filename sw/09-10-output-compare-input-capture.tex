@@ -2,6 +2,8 @@
 
 \includegraphics[width=0.5\textwidth]{timer-configuration.png}
 
+\includegraphics[width=0.5\textwidth]{output-compare-input-capture.png}
+
 \subsection{Timer with Output-Compare}
 
 \textit{
@@ -28,12 +30,15 @@ interrupt void ISR_outCompare(void){
 }
 \end{lstlisting}
 
-\subsection{Usage Output Comapre Mode}
+\subsection{Usage Output Compare Mode}
 
 \textit{
-    The output compare mode can be used to setup
+    Output Compare is usually used to set / clear or toggle output pins.
+    \newline
+    The output compare mode can additionally be used to setup
     different timers on base of the same timer wihout
-    changing the TPMxMOD value.
+    changing the TPMxMOD value. To use the TPMxCx output pin for other
+    purposes, following needs to be set ELSxA:ELSxB=00
 }
 
 \includegraphics[width=0.5\textwidth]{output-compare-timer-trick.png}
@@ -48,4 +53,9 @@ interrupt void ISR_outCompare(void){
     value register for further usage.
 }
 
+\subsection{Logic Analyzer}
 
+\textit{
+    There are to type of logical analyzers,
+    Synchron (zustandsanalyse), Asynchron (Timing Analyse)
+}
