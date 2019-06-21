@@ -74,6 +74,14 @@ void adcInit(void)
 
   // valid clock: 0.4 - 4 MHz if ADLPC = 1
   ADCCFG_ADIV = 2;        // 0=/1,  1=/2,  2=/4, 3=/8
+
+  // setup interrupt (compare value - 12bit)
+  ADCCV = 0x05;
+  // define if trigger on less (0) or greater (1) then recevied value
+  ACFGT = 0; //
+  ACFE = 1; // enable compare function
+  AIEN = 1; // enable interrupt
+  // to reset the interrupt flag (COCO), eather write to ADCSC1 or read ADCRL
 }
 
 // 12 bit resolution (most of the time to much noise prever 10/8 Bit)
@@ -81,11 +89,10 @@ uint16 adcGet12BitValue(AdcChannels ch)
 {
     // set resolution (could also be ADC_RES_10BIT or ADC_RES_12BIT)
     ADCCFG_MODE = ADC_RES_12BIT;
-    // start new conversion
+    // start new conversion and reset COCO (interrupt flag)
     ADCSC1_ADCH = (uint8)ch;
     // wait until conversion has completed
     while(!ADCSC1_COCO);
     return ADCR;
 }
-
 \end{lstlisting}
